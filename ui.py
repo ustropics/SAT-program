@@ -17,7 +17,7 @@ def build_ui():
 
     # Create the datetime picker widget
     datetime_picker = pn.widgets.DatetimePicker(
-        name='', value=dt.datetime(2021, 3, 2, 12, 10)
+        name='Start Date/Time', value=dt.datetime(2021, 3, 2, 12, 10)
     )
 
     # Create a dropdown box (Select widget) with some options

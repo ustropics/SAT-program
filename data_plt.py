@@ -1,5 +1,5 @@
-## Filename: run.py
-## Description: This file is the entry point of the application.
+## Filename: data_plt.py
+## Description: This file is for plotting the data.
 
 import os
 import satpy
