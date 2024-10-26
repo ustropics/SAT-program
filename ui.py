@@ -5,8 +5,7 @@ import panel as pn
 import datetime as dt
 import warnings
 
-pn.extension()
-pn.config.theme = 'dark'
+pn.extension(theme='dark')
 
 def build_ui():
     def pn_repr(self, include=None, exclude=None):
