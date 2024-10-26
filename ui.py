@@ -15,9 +15,11 @@ def build_ui():
 
     warnings.filterwarnings('ignore')
 
+    label = pn.widgets.Label(value="Hello, world!", styles={'color': 'red'})
+
     # Create the datetime picker widget
     datetime_picker = pn.widgets.DatetimePicker(
-        name='Datetime Picker', value=dt.datetime(2021, 3, 2, 12, 10)
+        name='', value=dt.datetime(2021, 3, 2, 12, 10)
     )
 
     # Create a dropdown box (Select widget) with some options
@@ -26,4 +28,4 @@ def build_ui():
     )
 
     # Return both widgets in a column layout
-    return pn.Column(datetime_picker, dropdown, height=100)
+    return pn.Column(label, datetime_picker, dropdown, height=100)
