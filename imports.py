@@ -8,5 +8,5 @@ def pip_install():
     install_and_import('goes2go')
     install_and_import('satpy')
     install_and_import('pyspectral')
-    pip_install('panel')
+    install_and_import('panel')
     print("Python modules and libaries installed successfully... Have fun plotting!")
