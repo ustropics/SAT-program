@@ -10,7 +10,8 @@ from pyresample import create_area_def
 
 df = get_sat_data() # Get the satellite data
 
-# PLot data
+## PLOT DATA
+
 def plt_img():
     first_file = df.loc[0, 'file']
 

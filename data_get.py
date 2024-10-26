@@ -5,8 +5,6 @@
 from config import *
 from goes2go import GOES
 
-
-
 ## GET DATA
 
 def get_sat_data():
