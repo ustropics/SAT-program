@@ -9,4 +9,5 @@ def install_and_import(package):
         globals()[package] = importlib.import_module(package)
 
 
-install_and_import('goes2go')
+def test_func():
+    install_and_import('goes2go')
