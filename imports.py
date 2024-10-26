@@ -12,4 +12,4 @@ def install_and_import(package):
 def test_func():
     install_and_import('goes2go')
     install_and_import('satpy')
-    install_and_import('pysepctral')
+    install_and_import('pyspectral')
