@@ -19,4 +19,4 @@ def build_ui():
         name='Datetime Picker', value=dt.datetime(2021, 3, 2, 12, 10)
     )
 
-    return pn.Column(datetime_picker, height=400)
+    return pn.Column(datetime_picker, height=400)  # Explicitly return the layout
