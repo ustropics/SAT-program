@@ -26,4 +26,4 @@ def build_ui():
     )
 
     # Return both widgets in a column layout
-    return pn.Column(label, datetime_picker, dropdown, height=100)
+    return pn.Column(datetime_picker, dropdown, height=100)
