@@ -17,11 +17,11 @@ def plt_img():
     nc_file = os.path.join(nc_dir, first_file) # Load nc file
 
     for recipe in sat_recipes:
-        print(recipe)
+        # print(recipe)
 
         scn = satpy.Scene(reader='abi_l2_nc', filenames=[nc_file]) # Load the scene
-        print(scn.available_composite_names()) # Print available composite names
-        print(scn.available_dataset_names()) # Print available dataset names
+        # print(scn.available_composite_names()) # Print available composite names
+        # print(scn.available_dataset_names()) # Print available dataset names
 
         scn.load([recipe]) # Load the scene
 
@@ -34,7 +34,7 @@ def plt_img():
         # new_scn = new_scn.resample(my_area)
 
         area = scn[recipe].attrs['area'] # Get the area
-        print(area) # Print the area
+        # print(area) # Print the area
 
         new_scn.save_dataset(recipe, filename=f'{img_dir}goes_abi_{recipe}'+'_{datetime}.png'.format(datetime=scn.start_time.strftime('%Y%m%d%H%M'))) # Save the dataset
 
