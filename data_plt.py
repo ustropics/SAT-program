@@ -11,7 +11,7 @@ from pyresample import create_area_def
 df = get_sat_data() # Get the satellite data
 
 # PLot data
-def plt_satpy_img():
+def plt_img():
     first_file = df.loc[0, 'file']
 
     nc_file = os.path.join(nc_dir, first_file) # Load nc file
