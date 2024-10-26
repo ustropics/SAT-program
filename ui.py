@@ -15,14 +15,26 @@ def build_ui():
 
     warnings.filterwarnings('ignore')
 
-    # Create the datetime picker widget
+    # CSS styling for widget labels (adjust color to fit your theme)
+    css = """
+    .custom-widget .bk-input-group label {
+        color: white;  /* Change this color to suit your theme */
+    }
+    """
+
+    # Apply the CSS to the layout
+    pn.config.raw_css.append(css)
+
+    # Create the datetime picker widget with the custom class
     datetime_picker = pn.widgets.DatetimePicker(
-        name='Datetime Picker', value=dt.datetime(2021, 3, 2, 12, 10)
+        name='Datetime Picker', value=dt.datetime(2021, 3, 2, 12, 10),
+        css_classes=['custom-widget']
     )
 
-    # Create a dropdown box (Select widget) with some options
+    # Create a dropdown box (Select widget) with the custom class
     dropdown = pn.widgets.Select(
-        name='Options', options=['Option 1', 'Option 2', 'Option 3'], value='Option 1'
+        name='Options', options=['Option 1', 'Option 2', 'Option 3'],
+        value='Option 1', css_classes=['custom-widget']
     )
 
     # Return both widgets in a column layout
