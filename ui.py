@@ -5,6 +5,8 @@ import panel as pn
 import datetime as dt
 import warnings
 
+from config import *
+
 pn.extension(theme='dark')
 
 def build_ui():
@@ -21,9 +23,7 @@ def build_ui():
     )
 
     # Create a dropdown box (Select widget) with some options
-    dropdown = pn.widgets.Select(
-        name='Options', options=['Option 1', 'Option 2', 'Option 3'], value='Option 1'
-    )
+    dropdown = pn.widgets.Select(name='Satellite Composites', options=sat_composites, value='Select an option')
 
     # Return both widgets in a column layout
-    return pn.Column(datetime_picker, dropdown, height=100)
+    return pn.Column(datetime_picker, dropdown, height=400)
