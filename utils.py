@@ -1,3 +1,9 @@
+from config import *
+from imports import *
+
+import os
+
+
 def install_and_import(package):
     import importlib
     try:
@@ -26,3 +32,6 @@ satellite_translation = {
     'GOES-WEST (18)': 18
 }
 
+def create_directories():
+    os.makedirs(nc_dir, exist_ok=True)
+    os.makedirs(img_dir, exist_ok=True)
