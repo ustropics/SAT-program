@@ -48,16 +48,17 @@ def plt_img(df, composite_val, satellite_val, daynight_val):
         new_scn[recipe] = composite  # Assign the composite to the resampled scene
 
         filename = f'{img_dir}goes_abi_{recipe}_{datetime.now().strftime("%Y%m%d%H%M")}.png'
-        # new_scn.save_dataset(recipe, filename=filename)
+        filename2 = f'{img_dir}goes_abi_{recipe}_cartopy_{datetime.now().strftime("%Y%m%d%H%M")}.png'
+        new_scn.save_dataset(recipe, filename=filename)
 
         area = new_scn[recipe].attrs['area']
         dn_scn = new_scn.resample(area)
         image = get_enhanced_image(dn_scn[recipe]).data
         crs = dn_scn[recipe].attrs['area'].to_cartopy_crs()
 
-        fig = plt.figure(figsize=(20,20))
+        fig = plt.figure(figsize=(15,15))
         ax = fig.add_subplot(1, 1, 1, projection=crs)
-        ax.coastlines(resolution="10m", color="white")
+        ax.coastlines(resolution="10m", color="white", linewidth=0.8)
 
         if len(dn_scn[recipe].shape) > 2:
             image.plot.imshow(vmin=0, vmax=1, add_colorbar=False, rgb='bands', ax=ax)
@@ -65,7 +66,7 @@ def plt_img(df, composite_val, satellite_val, daynight_val):
             image = np.squeeze(image)
             image[0].plot.imshow(vmin=0, vmax=1, cmap='Greys_r', add_colorbar=False, ax=ax)
 
-        plt.savefig(filename, dpi=500, bbox_inches='tight')
+        plt.savefig(filename2, dpi=500, bbox_inches='tight')
         plt.close()
         
     else:
@@ -79,7 +80,8 @@ def plt_img(df, composite_val, satellite_val, daynight_val):
 
         # Save the regular composite dataset
         filename = f'{img_dir}goes_abi_{recipe}_{datetime.now().strftime("%Y%m%d%H%M")}.png'
-        # new_scn.save_dataset(recipe, filename=filename)
+        filename2 = f'{img_dir}goes_abi_{recipe}_cartopy_{datetime.now().strftime("%Y%m%d%H%M")}.png'
+        new_scn.save_dataset(recipe, filename=filename)
 
         plt_scn = scn.resample(area)
         print("Plot scene shape: ", plt_scn[recipe].shape)
@@ -97,7 +99,7 @@ def plt_img(df, composite_val, satellite_val, daynight_val):
             image = np.squeeze(image)
             image.plot.imshow(vmin=0, vmax=1, add_colorbar=False, ax=ax)
 
-        plt.savefig(filename, dpi=500, bbox_inches='tight')
+        plt.savefig(filename2, dpi=500, bbox_inches='tight')
         plt.close()
 
 # plt_satpy_img() # Plot the satellite image

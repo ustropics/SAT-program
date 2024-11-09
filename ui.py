@@ -30,6 +30,8 @@ def build_ui():
 
     daynight_switch_text = pn.widgets.StaticText(value='Include Day/Night Composite')
 
+    # lat_lon_array = pn.widgets.ArrayInput(name='Latitude and Longitude Array Input', value='[0, 0, 0, 0]')
+
     # Create a dropdown box (Select widget) with some options
     composite_dropdown = pn.widgets.Select(name='Satellite Composites', options=sat_composites, value='CIMSS True Color Sun Zenith Rayleigh', size=8, disabled_options=['---Daytime Only (Can Add Night Below)---', '---Day and Night Composites---'])
     satellite_dropdown = pn.widgets.Select(name='Satellite Type', options=sat_types, value='GOES-EAST (16)')
