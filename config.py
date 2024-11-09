@@ -5,7 +5,7 @@ import datetime as dt
 
 # Set initial variables to get data
 sat_sel = 16
-sat_domain = 'F'
+sat_domain = 'C'
 sat_product = 'ABI-L2-MCMIP'
 end_time = dt.datetime.utcnow()
 start_time = end_time - dt.timedelta(minutes=30)
