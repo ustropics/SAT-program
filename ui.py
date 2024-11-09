@@ -21,7 +21,7 @@ def build_ui():
     tab1_col1_header = pn.widgets.StaticText(name='Quick select a product type and preset location')
     tab1_col2_header = pn.widgets.StaticText(name='Set the time range for data (times are in UTC)')
     tab2_col1_header = pn.widgets.StaticText(name='Select the projection, satellite, and domain type')
-    tab2_col2_header = pn.widgets.StaticText(name='Set custom latitude and longitude extent box')
+    tab2_col2_header = pn.widgets.StaticText(name='Set custom latitude and longitude extent')
     tab2_col2_header2 = pn.widgets.StaticText(name='Set the border color and width')
     tab3_col1_header = pn.widgets.StaticText(name='Select additional overlays to display')
 
@@ -47,14 +47,14 @@ def build_ui():
     nightcomp_dropdown = pn.widgets.Select(name='Night Composite', options=['None', 'VIIRS Day/Night Band'], value='None')
 
     # Create input boxes
-    lon1_input = pn.widgets.TextInput(name='West Longitude', value='0', width=150)
-    lat1_input = pn.widgets.TextInput(name='North Latitude', value='0', width=150)
-    lon2_input = pn.widgets.TextInput(name='East Longitude', value='0', width=150)
-    lat2_input = pn.widgets.TextInput(name='South Latitude', value='0', width=150)
-    border_width = pn.widgets.TextInput(name='Border Width', value='0.5', width=150)
+    lon1_input = pn.widgets.TextInput(name='West Longitude', value='0', width=100)
+    lat1_input = pn.widgets.TextInput(name='North Latitude', value='0', width=100)
+    lon2_input = pn.widgets.TextInput(name='East Longitude', value='0', width=100)
+    lat2_input = pn.widgets.TextInput(name='South Latitude', value='0', width=100)
+    border_width = pn.widgets.TextInput(name='Border Width', value='0.5', width=100)
 
     # Create special widgets
-    border_color = pn.widgets.ColorPicker(name='Border Color', value='orange', width=150)
+    border_color = pn.widgets.ColorPicker(name='Border Color', value='#EB3B00', width=100)
 
     # Create switches
     daynight_switch = pn.widgets.Switch(name='Include Day/Night Composite', value=False)

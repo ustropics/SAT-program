@@ -99,15 +99,15 @@ def plt_img(df, composite_val, satellite_val, daynight_val):
             'albers_equal_area',
             proj_dict,
             units='degrees',
-            width=10000,  # Approximate width based on resolution; adjust as needed
-            height=10000, # Approximate height based on resolution; adjust as needed
+            width=6000,  # Approximate width based on resolution; adjust as needed
+            height=6000, # Approximate height based on resolution; adjust as needed
             area_extent=[lon_min, lat_min, lon_max, lat_max]
         )
         
         # Load the selected recipe dataset
         scn.load([recipe])
 
-        new_scn = scn.resample(area_def, resampler='nearest', nprocs=8)
+        new_scn = scn.resample(area_def, resampler='nearest')
 
         # Resample the scene using minimum area
         # new_scn = scn.resample(scn.min_area(), resampler='nearest')
