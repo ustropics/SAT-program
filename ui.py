@@ -93,4 +93,4 @@ def build_ui():
 
 
     # Return both widgets in a column layout
-    return pn.Column(tabs, height=420)
+    return pn.Column(tabs, height=440)
