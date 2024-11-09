@@ -99,8 +99,8 @@ def plt_img(df, composite_val, satellite_val, daynight_val):
             'albers_equal_area',
             proj_dict,
             units='degrees',
-            width=6000,  # Approximate width based on resolution; adjust as needed
-            height=6000, # Approximate height based on resolution; adjust as needed
+            width=5240,  # Approximate width based on resolution; adjust as needed
+            height=5240, # Approximate height based on resolution; adjust as needed
             area_extent=[lon_min, lat_min, lon_max, lat_max]
         )
         
@@ -117,9 +117,7 @@ def plt_img(df, composite_val, satellite_val, daynight_val):
         print(area)
         
         plt_scn = scn.resample(area)
-        print("Plot scene shape: ", plt_scn[recipe].shape)
         image = get_enhanced_image(plt_scn[recipe]).data
-        print("Image shape: ", image.shape)
         crs = plt_scn[recipe].attrs['area'].to_cartopy_crs()
 
         fig = plt.figure(figsize=(20,20))
