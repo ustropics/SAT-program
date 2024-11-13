@@ -1,0 +1,7 @@
+[
+    {
+        "name": "CIMSS True Color Sun Zenith Rayleigh",
+        "label": "cimss_true_color_sunz_rayleigh",
+        "description": "CIMSS Natural (True) Color RGB. This version has been adjusted for the cosine of the solar zenith angle and has had rayleigh correction applied. This RGB is ratio sharpened by comparing a high resolution C02 (red) band with a lower/averaged version of itself and applying that ratio to the green and blue channels."
+    }
+]

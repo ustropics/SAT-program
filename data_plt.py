@@ -5,7 +5,9 @@ import os
 import satpy
 import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
+import cartopy.feature as cfeature
 import numpy as np
+import hashlib
 
 from config import *
 from utils import *
@@ -20,117 +22,106 @@ from satpy.composites import DayNightCompositor
 from pyresample import AreaDefinition
 
 from datetime import datetime
+from acgc import figstyle
 from glob import glob
+
+from data_get import get_sat_data
 
 ## PLOT DATA
 
-def plt_img(df, composite_val, satellite_val, daynight_val):
+def plt_img(df, data):
     """
     This function plots the satellite image.
     """
     
-    recipe = composite_translation.get(composite_val, None)
-    satellite = satellite_translation.get(satellite_val, None)
+    recipe = composite_translation.get(data['composite_val'], None)
+    projection = projection_translation.get(data['projection_val'], None)
 
-    filename = f'{img_dir}goes_abi_{recipe}_{datetime.now().strftime("%Y%m%d%H%M")}.png'
-    filename2 = f'{img_dir}goes_abi_{recipe}_cartopy_{datetime.now().strftime("%Y%m%d%H%M")}.png'
+    filename_array = []
 
+    for row in df.itertuples(index=False):
+        nc_file = os.path.join(nc_dir, row.file)  # Load nc file
 
-    
-    first_file = df.loc[0, 'file']
+        concatenated_values = ''.join(str(value) for value in data.values()) + row.file
+        hash_object = hashlib.sha256(concatenated_values.encode())
+        hash_key = hash_object.hexdigest()
 
-    nc_file = os.path.join(nc_dir, first_file)  # Load nc file
+        filename = f'{img_dir}{hash_key}.webp'
+        filename_array.append(filename)
 
-    scn = satpy.Scene(reader='abi_l2_nc', filenames=[nc_file])  # Load the scene
-    
-    # Print list of bands and scenes available to load
-    # print(scn.available_dataset_names())
-    # print(scn.available_composite_names())
-
-    if daynight_val == True:
-        # Load the required datasets
-        scn.load([recipe, 'ir108_3d'])
-
-        # Create the day/night composite
-        compositor = DayNightCompositor("dnc", lim_low=85., lim_high=88., day_night="day_night")
-        composite = compositor([scn[recipe], scn['ir108_3d']])
+        scn = satpy.Scene(reader='abi_l2_nc', filenames=[nc_file])  # Load the scene
+        # print("scn attrs: ", scn.attrs)
         
-        # Resample using the original Scene object
-        new_scn = scn.resample(scn.min_area(), resampler='nearest')
-        new_scn[recipe] = composite  # Assign the composite to the resampled scene
-        new_scn.save_dataset(recipe, filename=filename)
+        # Print list of bands and scenes available to load
+        # print(scn.available_dataset_names())
+        # print(scn.available_composite_names())
 
-        area = new_scn[recipe].attrs['area']
-        dn_scn = new_scn.resample(area)
-        # image = get_enhanced_image(dn_scn[recipe]).data
-        crs = dn_scn[recipe].attrs['area'].to_cartopy_crs()
-
-        fig = plt.figure(figsize=(15,15))
-        ax = fig.add_subplot(1, 1, 1, projection=crs)
-        ax.coastlines(resolution="10m", color="white", linewidth=0.8)
-
-        if len(dn_scn[recipe].shape) > 2:
-            image.plot.imshow(vmin=0, vmax=1, add_colorbar=False, rgb='bands', ax=ax)
-        else:
-            image = np.squeeze(image)
-            image[0].plot.imshow(vmin=0, vmax=1, cmap='Greys_r', add_colorbar=False, ax=ax)
-
-        plt.savefig(filename2, dpi=500, bbox_inches='tight')
-        plt.close()
-        
-    else:
-
-        # Define the desired lat/lon bounding box for Florida
-        lat_min, lat_max = 24.396308, 31.000968  # Latitude range for Florida
-        lon_min, lon_max = -87.634918, -78.031362  # Longitude range for Florida
+        lat_min, lat_max = data['lat1_val'], data['lat2_val']  # Latitude range for Florida
+        lon_min, lon_max = data['lon1_val'], data['lon2_val']  # Longitude range for Florida
 
         # Define a custom area with Lambert Conformal projection and geographic bounds
         proj_dict = {
-            'proj': 'aea',
-            'lat_0': 0.5 * (lat_min + lat_max),  # Central latitude, roughly the center of Florida
-            'lon_0': 0.5 * (lon_min + lon_max),  # Central longitude, roughly the center of Florida
+            'proj': projection,
+            'lat_0': 0.5 * (lat_min + lat_max),  # Central latitude
+            'lon_0': 0.5 * (lon_min + lon_max),  # Central longitude
             'lat_1': lat_min,     # First standard parallel
             'lat_2': lat_max,     # Second standard parallel
             'ellps': 'GRS80'
         }
 
         # Create the area definition in Satpy using latitude and longitude bounds
+
         area_def = create_area_def(
-            'albers_equal_area',
+            'composite_area',  # Name of the area definition
             proj_dict,
             units='degrees',
-            width=5240,  # Approximate width based on resolution; adjust as needed
-            height=5240, # Approximate height based on resolution; adjust as needed
+            width=5420, 
+            height=5420,
             area_extent=[lon_min, lat_min, lon_max, lat_max]
         )
-        
-        # Load the selected recipe dataset
-        scn.load([recipe])
 
-        new_scn = scn.resample(area_def, resampler='nearest')
+        # print("Area Definition: ", area_def)
 
-        # Resample the scene using minimum area
-        # new_scn = scn.resample(scn.min_area(), resampler='nearest')
-        # new_scn.save_dataset(recipe, filename=filename)
+        if data['nightcomp_val'] == True:
+            scn.load([recipe, 'ir108_3d'])
+            compositor = DayNightCompositor("dnc", lim_low=85., lim_high=88., day_night="day_night")
+            composite = compositor([scn[recipe], scn['ir108_3d']])
+            new_scn = scn.resample(scn.min_area(), resampler='nearest')
+            new_scn[recipe] = composite  # Assign the composite to the resampled scene
+        else:
+            scn.load([recipe])
+            new_scn = scn.resample(area_def, resampler='nearest', cache_dir='cache/')
         
         area = new_scn[recipe].attrs['area']
-        print(area)
         
         plt_scn = scn.resample(area)
+
+        # print("Area CRS: ", plt_scn[recipe].attrs['area'])
+        # print("scn attrs: ", plt_scn[recipe].attrs)
         image = get_enhanced_image(plt_scn[recipe]).data
+        # print("image attributes: ", image.attrs)
         crs = plt_scn[recipe].attrs['area'].to_cartopy_crs()
-
-        fig = plt.figure(figsize=(20,20))
+        
+        fig = plt.figure(figsize=(15,15))
         ax = fig.add_subplot(1, 1, 1, projection=crs)
-        ax.coastlines(resolution="10m", color="white")
 
+
+        ax.add_feature(cfeature.COASTLINE, edgecolor=data['border_color_val'], linewidth=float(data['border_width_val']))
+        ax.add_feature(cfeature.BORDERS, edgecolor=data['border_color_val'], linewidth=float(data['border_width_val']))
+        ax.add_feature(cfeature.STATES, edgecolor=data['border_color_val'], linewidth=float(data['border_width_val']))
+        ax.gridlines(draw_labels=True, linewidth=0.5, color='gray', alpha=0.5, linestyle='--')
+        
         if len(plt_scn[recipe].shape) > 2:
             image.plot.imshow(vmin=0, vmax=1, add_colorbar=False, rgb='bands', ax=ax)
+            ax.set_title(f"Composite: {data['composite_val']} | Projection: {data['projection_val']} | Area: {data['location_val']}", fontsize=14, zorder=100)
         else:  # Single-band grayscale case
             image = np.squeeze(image)
             image.plot.imshow(vmin=0, vmax=1, add_colorbar=False, ax=ax)
 
-        plt.savefig(filename2, dpi=500, bbox_inches='tight')
+        plt.savefig(filename, dpi=500, bbox_inches='tight')
         plt.close()
+
+    return filename_array
+
 
 # plt_satpy_img() # Plot the satellite image
