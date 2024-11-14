@@ -10,4 +10,5 @@ def pip_install():
     install_and_import('pyspectral')
     install_and_import('panel')
     install_and_import('jupyter_bokeh')
+    install_and_import('acgc')
     print("Python modules and libaries installed successfully... Have fun plotting!")

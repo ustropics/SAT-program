@@ -4,7 +4,7 @@
 from data_get import get_sat_data
 from data_prc import prc_data
 from data_plt import plt_img
-from utils import create_directories, image_player
+from utils import create_directories
 
 import json
 
