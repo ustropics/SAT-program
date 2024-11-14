@@ -264,7 +264,7 @@ def build_ui():
     template = pn.template.MaterialTemplate(title='SAT-Viewer', theme=DarkTheme, header=[action_bar])
 
     # Tabs
-    tabs = pn.Tabs(('Main', pn.Row(tab1_col1)), ('Projection Settings', pn.Row(tab2_col1)), 'Utilities')
+    tabs = pn.Tabs(('Main', pn.Row(tab1_col1)), ('Projection Settings', pn.Row(tab2_col1)), ('Utilities', ''))
 
     # Final layout in the template
     template.sidebar.append(tabs)
