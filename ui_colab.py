@@ -168,7 +168,7 @@ def build_ui():
 
 
     # Create the columns for the tabs
-    tab1_col1 = pn.Column(tab1_col1_header, composite_dropdown, location_dropdown, run_btn)
+    tab1_col1 = pn.Column(tab1_col1_header, composite_dropdown, location_dropdown)
     tab1_col2 = pn.Column(tab1_col2_header, start_dt, end_dt)
     tab2_col1 = pn.Column(tab2_col1_header, projection_dropdown, satellite_dropdown, domain_dropdown, nightcomp_dropdown)
     tab2_col2 = pn.Column(tab2_col2_header, lat_container, lon_container, tab2_col2_header2, border_container)
