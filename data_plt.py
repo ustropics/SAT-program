@@ -82,15 +82,15 @@ def plt_img(df, data):
 
         # print("Area Definition: ", area_def)
 
-        if data['nightcomp_val'] == True:
-            scn.load([recipe, 'ir108_3d'])
-            compositor = DayNightCompositor("dnc", lim_low=85., lim_high=88., day_night="day_night")
-            composite = compositor([scn[recipe], scn['ir108_3d']])
-            new_scn = scn.resample(scn.min_area(), resampler='nearest')
-            new_scn[recipe] = composite  # Assign the composite to the resampled scene
-        else:
-            scn.load([recipe])
-            new_scn = scn.resample(area_def, resampler='nearest', cache_dir='cache/')
+        # if data['nightcomp_val'] == True:
+        #     scn.load([recipe, 'ir108_3d'])
+        #     compositor = DayNightCompositor("dnc", lim_low=85., lim_high=88., day_night="day_night")
+        #     composite = compositor([scn[recipe], scn['ir108_3d']])
+        #     new_scn = scn.resample(scn.min_area(), resampler='nearest')
+        #     new_scn[recipe] = composite  # Assign the composite to the resampled scene
+        # else:
+        scn.load([recipe])
+        new_scn = scn.resample(area_def, resampler='nearest', cache_dir='cache/')
         
         area = new_scn[recipe].attrs['area']
         
