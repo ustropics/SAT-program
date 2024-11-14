@@ -10,7 +10,7 @@ start_time = end_time - dt.timedelta(minutes=20)
 
 nc_dir = 'data/nc/'
 img_dir = 'media/img/'
-location_json = 'static/json/location_data.json'
+location_json = 'location_data.json'
 
 composite_translation = {
     '---Daytime Only (Can Add Night Below)---': '---Daytime Only (Can Add Night Below)---',
