@@ -1,0 +1,9 @@
+acgc
+cartopy
+dask
+goes2go
+matplotlib
+panel
+pyspectral
+satpy
+xarray

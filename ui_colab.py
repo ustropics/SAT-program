@@ -7,7 +7,7 @@ from config import *
 from utils import default_locations, location_data
 from run import run_prg
 
-def colab_ui():
+def build_ui():
     def pn_repr(self, include=None, exclude=None):
         pn.extension()
         return pn.viewable.Viewable._repr_mimebundle_(self, include, exclude)

@@ -1,0 +1,14 @@
+name: GOES_viewer
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - acgc
+  - cartopy
+  - dask
+  - goes2go
+  - matplotlib
+  - panel
+  - pyspectral
+  - satpy
+  - xarray

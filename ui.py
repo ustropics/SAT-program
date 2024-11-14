@@ -261,7 +261,7 @@ def build_ui():
 
     action_bar = pn.Row(run_btn)
 
-    template = pn.template.MaterialTemplate(title='GOES-Viewer', theme=DarkTheme, header=[action_bar])
+    template = pn.template.MaterialTemplate(title='SAT-Viewer', theme=DarkTheme, header=[action_bar])
 
     # Tabs
     tabs = pn.Tabs(('Main', pn.Row(tab1_col1)), ('Projection Settings', pn.Row(tab2_col1)), 'Utilities')
